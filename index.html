@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Aaf-ascii animation framework by stephaneAG</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Aaf-ascii animation framework</h1>
+        <p>AAF - minimalistic ascii animation framework written in .. .. bash ( part of my answer to &quot;Can I/we make this particular bear dance ?&quot; )</p>
+
+        <p class="view"><a href="https://github.com/stephaneAG/AAF-ascii_animation_framework">View the Project on GitHub <small>stephaneAG/AAF-ascii_animation_framework</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/stephaneAG/AAF-ascii_animation_framework/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/stephaneAG/AAF-ascii_animation_framework/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/stephaneAG/AAF-ascii_animation_framework">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>
+<a name="welcome-to-the-aaf-github-project-page" class="anchor" href="#welcome-to-the-aaf-github-project-page"><span class="octicon octicon-link"></span></a>Welcome to the AAF GitHub Project Page</h3>
+
+<p>This project aims to give end-[power-(?)]users an easy &amp; functional way to experiment with ASCII animations directly from a terminal window.
+It provides several functions in "some unified way", simplifying further additions &amp; experiments.</p>
+
+<p>Using the framework is intended to be a lot like "Processing ( P5 )" &amp; others (..) for the users to get their grips on it as quickly as possible.</p>
+
+<p>This doc is quite minimalistic, so if you want to use this project, read it thoroughly :)</p>
+
+<h3>
+<a name="notes" class="anchor" href="#notes"><span class="octicon octicon-link"></span></a>Notes</h3>
+
+<p>Each game / project willing to use the framework must be made of at least three files:</p>
+
+<ul>
+<li>the "ascii_animation__executable.sh" file -- the actual executable ( what to run )</li>
+<li>the "ascii_animation__project.sh" file -- containing the barebone code &amp; yours</li>
+<li>the "ascii_animation__framework.sh" file -- containing the framework itself</li>
+</ul><p>In a near future, I am willing to try different "experimental inputs" &amp; add them to the framework, thus providing sort of "event handling" capabilities as an "additional bonus" ;p</p>
+
+<h3>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<ul>
+<li>the "ascii_animation__executable.sh" file:</li>
+</ul><p>This file is the actual executable ( the one to run / execute to launch your project ).
+You can add any infos you'd like as comments, in the dedicated space if possible or at least preceeded by "##".
+The rest of the file needs to stay untouched for the framework to work correctly ( .. ).</p>
+
+<p>ascii_animation__executable.sh - provided / barebone example</p>
+
+<pre><code>#!/bin/bash
+# the above is not actually necessary for me, except of a cleaner debugging / coding ( .. )
+
+####
+## -- ASCII_ANIMATION FRAMEWORK --
+##
+##    Game / Project executable
+##
+##       &lt;GAME/PROJECT NAME&gt;
+##       &lt;GAME/PROJECT TYPE&gt;
+##       &lt;GAME/PROJECT INFO&gt;
+##      &lt;GAME/PROJECT AUTHOR&gt;
+##       &lt;GAME/PROJECT MAIL&gt;
+##       &lt;GAME/PROJECT WWW.&gt; 
+####
+
+## --
+# Import the [tiny &amp; wip] Ascii Animation Framework
+source ascii_animation__framework.sh # -- ! MUST BE PRESENT
+# Init &amp; launch game/project
+_setup # -- ! MUST BE PRESENT
+_draw # -- ! MUST BE PRESENT
+## --
+</code></pre>
+
+<ul>
+<li>the "ascii_animation__project.sh" file:</li>
+</ul><p>This file is the one that contains the barebone code for using the framework &amp; your own functions &amp; variables.
+It MUST contain at least a "setup()" &amp; a "draw()" function.
+More than necessary, these function are the ones you 'll use for initialization &amp; looping.
+As their names suggest, the "setup()" function is used for the initializations while the "draw()" function 'll simply enter an infinite loop.
+To exit that infinite loop, simply hit "Ctrl-C" &amp; you'll be redirected to your prompt ( nb: some "custom cleanup handlers" 'll be added in a near future ( .. ) ). </p>
+
+<p>ascii_animation__project.sh - provided / barebone example</p>
+
+<pre><code>#!/bin/bash
+# the above is not actually necessary for me, except of a cleaner debugging / coding ( .. )
+
+####
+## -- ASCII_ANIMATION FRAMEWORK --
+##
+##        Game / Project file
+##
+####
+
+## --
+
+# you can define your variables and function in below
+
+# "setup()" function - 'll run once at the beginning of the game / project execution -- ! MUST BE PRESENT ( can be empty )
+setup(){
+
+  saveContext # save cursor position before drawing
+  echo -en "user text in setup() function ..."
+  restoreContext # restore the cursor position after drawing
+
+  sleep 5 # wait a little bit for our user to see the message displayed above ( as we're in the "setup()" function, it's ok to invoke the "sleep()" function -&gt; aka it won't mess with the framerate )
+
+}
+
+# "draw()" function - 'll be called repeatedly in an infinite loop until the user hit "Ctrl-C" -- ! MUST BE PRESENT ( can be empty )
+draw(){
+
+  saveContext # save cursor position before drawing
+  drawCenteredText "Hello World end-user !" # draw a one-line text, centered
+  restoreContext # restore the cursor position after drawing
+
+}
+</code></pre>
+
+<ul>
+<li>the "ascii_animation__framework.sh" file:</li>
+</ul><p>This file is the the framework itself.
+DON'T MODIFY IT UNLESS YOU REALLY KNOW WHAT YOU'RE DOING ! ( yup, that's a warning .. ).
+In fact, you should never [ever] need to do so.
+If you need custom functions ( wich are not already setup system-wide, if you know what i mean -&gt; If you don't, this comment is not for you ), you just have to write them in the "ascii_animation__project.sh" file, right before the declaration of the "setup()" function ( I left a comment there ;) ).
+If you really, deeply need more space, and to keep a clean "ascii_animation__project.sh" file, what you can do is "source" the "big file" containing you custom code in the "ascii_animation__project.sh" file, right were you'd have declared some custom variables &amp; functions.</p>
+
+<p>ascii_animation__project.sh - example of "sourcing" an external file containing custom code</p>
+
+<pre><code># ( .. )
+# you can define your variables and function in below
+# "source" the external file's content
+source myexternalfile.sh
+# we can also do stuff BEFORE &amp; outside the "setup()" function ( not AFTER it elsewhere )
+# that's what we'll do here, as an EXAMPLE ( nb: also, DON'T use "echo" &amp; prefer the framework equivalent )
+# display the number held by our variable defined in the external file
+displayNumber $aVariable
+# echo the text held by another variable defined in our external file
+echo -en "$anotherVariable" 
+
+# "setup()" function
+# ( .. )
+</code></pre>
+
+<p>simple example of an external file that'd be "sourced" by the "ascii_animation__project.sh" file
+( it is good practice NOT to use names starting with "aaf" or "AAF" -&gt; the framework 'll use these a "namespaces" in the next update of the project ).</p>
+
+<pre><code>#!/bin/bash
+# myexternalfile.sh
+
+# declare a variable
+aVariable=0
+anotherVariable="Hello there .."
+
+# declare a function
+displayNumber(){
+  echo -en "$1" # echo the first parameter passed
+}
+</code></pre>
+
+<h3>
+<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>StephaneAG ( <a href="https://github.com/StephaneAG" class="user-mention">@StephaneAG</a> )</p>
+
+<h3>
+<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+
+<p>Feel free to contact me for any help, suggestion, or related stuff.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/stephaneAG">stephaneAG</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
